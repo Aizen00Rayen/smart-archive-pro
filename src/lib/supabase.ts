@@ -1,9 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
-
-const SUPABASE_URL = "https://skfkstufxarxmmsgcwpd.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_NpttT_6inDzrPAOYCmLaDA_sALdzs7W";
-
-export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+// Re-export the auto-generated Lovable Cloud client
+export { supabase } from "@/integrations/supabase/client";
 
 export type DocumentRow = {
   id: string;
@@ -11,5 +7,9 @@ export type DocumentRow = {
   reference: string;
   category: string;
   status: string;
+  file_url: string | null;
+  file_path: string | null;
+  qr_token: string;
+  uploaded_by: string | null;
   created_at: string;
 };
