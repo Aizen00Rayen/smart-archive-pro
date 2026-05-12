@@ -1,26 +1,34 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Navbar } from "@/components/landing/Navbar";
+import { Hero } from "@/components/landing/Hero";
+import { ProblemSolution } from "@/components/landing/ProblemSolution";
+import { Features } from "@/components/landing/Features";
+import { HowItWorks } from "@/components/landing/HowItWorks";
+import { Impact } from "@/components/landing/Impact";
+import { Footer } from "@/components/landing/Footer";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "نظام ذكي لأرشفة وثائق البلدية | Smart Municipal Archive" },
+      { name: "description", content: "نظام متكامل للرقمنة، التصنيف الآلي، والبحث الذكي في وثائق البلديات الجزائرية." },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div dir="rtl" className="min-h-screen bg-background">
+      <Navbar />
+      <main>
+        <Hero />
+        <ProblemSolution />
+        <Features />
+        <HowItWorks />
+        <Impact />
+      </main>
+      <Footer />
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
