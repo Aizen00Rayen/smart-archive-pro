@@ -120,4 +120,4 @@
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-12px); }
 }
-.animate-float { animation: float-slow 6s ease-in-out infinite; }
+  .animate-float { animation: float-slow 6s ease-in-out infinite; }
