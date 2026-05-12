@@ -121,3 +121,21 @@
   50% { transform: translateY(-12px); }
 }
 .animate-float { animation: float-slow 6s ease-in-out infinite; }
+
+@layer utilities {
+  .auth-input {
+    width: 100%;
+    height: 2.75rem;
+    padding-inline: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-input);
+    outline: none;
+    transition: var(--transition-smooth);
+    color: var(--color-foreground);
+  }
+  .auth-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ring) 30%, transparent);
+  }
+}
