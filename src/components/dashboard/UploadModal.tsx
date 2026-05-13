@@ -1,8 +1,10 @@
 import { X, Upload, FileUp } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import type { DocumentRow } from "@/lib/supabase";
 
-export function UploadModal({ open, onClose, onUploaded }: { open: boolean; onClose: () => void; onUploaded: () => void }) {
+export function UploadModal({ open, onClose, onUploaded }: { open: boolean; onClose: () => void; onUploaded: (doc?: DocumentRow) => void }) {
   const [title, setTitle] = useState("");
   const [reference, setReference] = useState("");
   const [category, setCategory] = useState("قرار بلدي");
