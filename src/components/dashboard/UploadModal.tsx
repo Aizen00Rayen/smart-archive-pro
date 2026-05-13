@@ -1,8 +1,10 @@
 import { X, Upload, FileUp } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import type { DocumentRow } from "@/lib/supabase";
 
-export function UploadModal({ open, onClose, onUploaded }: { open: boolean; onClose: () => void; onUploaded: () => void }) {
+export function UploadModal({ open, onClose, onUploaded }: { open: boolean; onClose: () => void; onUploaded: (doc?: DocumentRow) => void }) {
   const [title, setTitle] = useState("");
   const [reference, setReference] = useState("");
   const [category, setCategory] = useState("قرار بلدي");
@@ -40,17 +42,26 @@ export function UploadModal({ open, onClose, onUploaded }: { open: boolean; onCl
         file_url = pub.publicUrl;
       }
 
-      const { error: insErr } = await supabase.from("documents").insert({
-        title, reference, category, status: "مؤرشف",
-        file_url, file_path, uploaded_by: uid,
-      });
+      const { data: inserted, error: insErr } = await supabase
+        .from("documents")
+        .insert({
+          title, reference, category, status: "مؤرشف",
+          file_url, file_path, uploaded_by: uid,
+        })
+        .select()
+        .single();
       if (insErr) throw insErr;
 
+      toast.success("تم رفع الوثيقة بنجاح", {
+        description: `تم توليد رمز QR: ${(inserted as DocumentRow).qr_token.slice(0, 12)}…`,
+      });
       reset();
-      onUploaded();
+      onUploaded(inserted as DocumentRow);
       onClose();
     } catch (err: any) {
-      setError(err?.message ?? "تعذّر حفظ الوثيقة. تأكد من صلاحيات المسؤول.");
+      const msg = err?.message ?? "تعذّر حفظ الوثيقة. تأكد من صلاحيات المسؤول.";
+      setError(msg);
+      toast.error("فشل رفع الوثيقة", { description: msg });
     } finally {
       setLoading(false);
     }

@@ -179,7 +179,7 @@ export function Dashboard() {
         </div>
       </div>
 
-      {isAdmin && <UploadModal open={open} onClose={() => setOpen(false)} onUploaded={load} />}
+      {isAdmin && <UploadModal open={open} onClose={() => setOpen(false)} onUploaded={(doc) => { load(); if (doc) setQrDoc(doc); }} />}
       <QRPreviewModal doc={qrDoc} onClose={() => setQrDoc(null)} />
     </div>
   );
