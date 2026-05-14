@@ -33,19 +33,16 @@ function AuthPage() {
     setError(null);
     try {
       if (isSignup) {
-        const { data, error } = await supabase.auth.signUp({
+        // All signups are regular users. Admin role is granted only by an existing admin from the dashboard.
+        const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/dashboard`,
-            data: { full_name: fullName, role: isAdmin ? "admin" : "user" },
+            data: { full_name: fullName },
           },
         });
         if (error) throw error;
-        // ensure role row exists (in case trigger needs help)
-        if (data.user && isAdmin) {
-          await supabase.from("user_roles").insert({ user_id: data.user.id, role: "admin" }).then(() => {});
-        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
