@@ -73,24 +73,31 @@ function AuthPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 p-1 bg-muted rounded-xl mb-6">
-              <Link
-                to="/auth"
-                search={{ mode, as: "user" }}
-                className={`text-center text-sm py-2 rounded-lg transition-smooth ${as === "user" ? "bg-card shadow-sm font-semibold text-foreground" : "text-muted-foreground"}`}
-              >
-                <User className="size-4 inline ml-1.5" />
-                مستخدم
-              </Link>
-              <Link
-                to="/auth"
-                search={{ mode, as: "admin" }}
-                className={`text-center text-sm py-2 rounded-lg transition-smooth ${as === "admin" ? "bg-card shadow-sm font-semibold text-foreground" : "text-muted-foreground"}`}
-              >
-                <UserCog className="size-4 inline ml-1.5" />
-                مسؤول
-              </Link>
-            </div>
+            {!isSignup && (
+              <div className="grid grid-cols-2 gap-2 p-1 bg-muted rounded-xl mb-6">
+                <Link
+                  to="/auth"
+                  search={{ mode, as: "user" }}
+                  className={`text-center text-sm py-2 rounded-lg transition-smooth ${as === "user" ? "bg-card shadow-sm font-semibold text-foreground" : "text-muted-foreground"}`}
+                >
+                  <User className="size-4 inline ml-1.5" />
+                  مستخدم
+                </Link>
+                <Link
+                  to="/auth"
+                  search={{ mode, as: "admin" }}
+                  className={`text-center text-sm py-2 rounded-lg transition-smooth ${as === "admin" ? "bg-card shadow-sm font-semibold text-foreground" : "text-muted-foreground"}`}
+                >
+                  <UserCog className="size-4 inline ml-1.5" />
+                  مسؤول
+                </Link>
+              </div>
+            )}
+            {isSignup && (
+              <div className="text-xs text-muted-foreground bg-muted/60 border border-border rounded-lg p-3 mb-6">
+                يتم إنشاء جميع الحسابات الجديدة كـ <span className="font-semibold text-foreground">مستخدم عادي</span>. صلاحيات المسؤول تُمنح فقط من طرف مسؤول حالي عبر لوحة التحكم.
+              </div>
+            )}
 
             <form onSubmit={submit} className="space-y-4">
               {isSignup && (
