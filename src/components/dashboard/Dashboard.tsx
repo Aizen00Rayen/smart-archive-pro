@@ -178,6 +178,8 @@ export function Dashboard() {
             </div>
           )}
         </div>
+
+        {isAdmin && <UsersAdmin currentUserId={user.id} />}
       </div>
 
       {isAdmin && <UploadModal open={open} onClose={() => setOpen(false)} onUploaded={(doc) => { load(); if (doc) setQrDoc(doc); }} />}
