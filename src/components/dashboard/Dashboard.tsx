@@ -4,6 +4,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase, type DocumentRow } from "@/lib/supabase";
 import { UploadModal } from "./UploadModal";
 import { QRPreviewModal } from "./QRPreviewModal";
+import { UsersAdmin } from "./UsersAdmin";
 import { useAuth } from "@/hooks/use-auth";
 
 export function Dashboard() {
