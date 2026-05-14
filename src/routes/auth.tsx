@@ -33,19 +33,16 @@ function AuthPage() {
     setError(null);
     try {
       if (isSignup) {
-        const { data, error } = await supabase.auth.signUp({
+        // All signups are regular users. Admin role is granted only by an existing admin from the dashboard.
+        const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/dashboard`,
-            data: { full_name: fullName, role: isAdmin ? "admin" : "user" },
+            data: { full_name: fullName },
           },
         });
         if (error) throw error;
-        // ensure role row exists (in case trigger needs help)
-        if (data.user && isAdmin) {
-          await supabase.from("user_roles").insert({ user_id: data.user.id, role: "admin" }).then(() => {});
-        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -76,24 +73,31 @@ function AuthPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 p-1 bg-muted rounded-xl mb-6">
-              <Link
-                to="/auth"
-                search={{ mode, as: "user" }}
-                className={`text-center text-sm py-2 rounded-lg transition-smooth ${as === "user" ? "bg-card shadow-sm font-semibold text-foreground" : "text-muted-foreground"}`}
-              >
-                <User className="size-4 inline ml-1.5" />
-                مستخدم
-              </Link>
-              <Link
-                to="/auth"
-                search={{ mode, as: "admin" }}
-                className={`text-center text-sm py-2 rounded-lg transition-smooth ${as === "admin" ? "bg-card shadow-sm font-semibold text-foreground" : "text-muted-foreground"}`}
-              >
-                <UserCog className="size-4 inline ml-1.5" />
-                مسؤول
-              </Link>
-            </div>
+            {!isSignup && (
+              <div className="grid grid-cols-2 gap-2 p-1 bg-muted rounded-xl mb-6">
+                <Link
+                  to="/auth"
+                  search={{ mode, as: "user" }}
+                  className={`text-center text-sm py-2 rounded-lg transition-smooth ${as === "user" ? "bg-card shadow-sm font-semibold text-foreground" : "text-muted-foreground"}`}
+                >
+                  <User className="size-4 inline ml-1.5" />
+                  مستخدم
+                </Link>
+                <Link
+                  to="/auth"
+                  search={{ mode, as: "admin" }}
+                  className={`text-center text-sm py-2 rounded-lg transition-smooth ${as === "admin" ? "bg-card shadow-sm font-semibold text-foreground" : "text-muted-foreground"}`}
+                >
+                  <UserCog className="size-4 inline ml-1.5" />
+                  مسؤول
+                </Link>
+              </div>
+            )}
+            {isSignup && (
+              <div className="text-xs text-muted-foreground bg-muted/60 border border-border rounded-lg p-3 mb-6">
+                يتم إنشاء جميع الحسابات الجديدة كـ <span className="font-semibold text-foreground">مستخدم عادي</span>. صلاحيات المسؤول تُمنح فقط من طرف مسؤول حالي عبر لوحة التحكم.
+              </div>
+            )}
 
             <form onSubmit={submit} className="space-y-4">
               {isSignup && (

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase, type DocumentRow } from "@/lib/supabase";
 import { UploadModal } from "./UploadModal";
 import { QRPreviewModal } from "./QRPreviewModal";
+import { UsersAdmin } from "./UsersAdmin";
 import { useAuth } from "@/hooks/use-auth";
 
 export function Dashboard() {
@@ -177,6 +178,8 @@ export function Dashboard() {
             </div>
           )}
         </div>
+
+        {isAdmin && <UsersAdmin currentUserId={user.id} />}
       </div>
 
       {isAdmin && <UploadModal open={open} onClose={() => setOpen(false)} onUploaded={(doc) => { load(); if (doc) setQrDoc(doc); }} />}
